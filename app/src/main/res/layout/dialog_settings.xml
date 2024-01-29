@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_dialog"
+    android:layout_marginHorizontal="16dp">
+
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/cancel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Options"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cancel" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rate"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="56dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintVertical_bias="0.5"
+        app:cardBackgroundColor="@color/item_background"
+        android:layout_height="?android:actionBarSize"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rate the game"
+            android:elevation="2dp"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nunito_bold"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/privacy_policy"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="56dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/item_background"
+        android:layout_height="?android:actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rate">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privacy policy"
+            android:elevation="2dp"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nunito_bold"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/more_games"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="56dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/item_background"
+        android:layout_height="?android:actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/privacy_policy">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="More games"
+            android:elevation="2dp"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nunito_bold"/>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

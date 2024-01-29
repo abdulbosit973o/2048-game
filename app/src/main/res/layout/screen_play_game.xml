@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/app_main_background"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/_infotext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:text="Join the numbers  and get to the 2048 tile !"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#E5C052"
+        android:textSize="14sp"
+        app:fontFamily="@font/nunito_black"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintLeft_toLeftOf="@id/mainView"
+        app:layout_constraintRight_toRightOf="@id/mainView"
+        app:layout_constraintBottom_toTopOf="@id/mainView"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/high_score"
+        android:layout_width="108dp"
+        android:layout_height="66dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/container_color"
+        app:layout_constraintEnd_toEndOf="@id/restart_game"
+        app:layout_constraintBottom_toTopOf="@id/restart_game"
+        android:layout_marginBottom="16dp"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/current_score"
+        android:layout_width="88dp"
+        android:layout_height="66dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/container_color"
+        app:layout_constraintEnd_toStartOf="@id/high_score"
+        app:layout_constraintBottom_toTopOf="@id/restart_game"
+        android:layout_marginBottom="16dp"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/restart_game"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/container_color"
+        app:layout_constraintEnd_toEndOf="@id/mainView"
+        app:layout_constraintBottom_toTopOf="@id/_infotext"
+        android:layout_marginBottom="16dp"
+        >
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/restart"
+            app:tint="@color/white" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/container_color"
+        app:layout_constraintEnd_toStartOf="@id/restart_game"
+        app:layout_constraintBottom_toTopOf="@id/_infotext"
+        android:layout_marginBottom="16dp"
+        >
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/home"
+            app:tint="@color/white" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/cr_scrore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score"
+        android:layout_marginTop="4dp"
+        android:elevation="2dp"
+        android:textSize="15sp"
+        android:fontFamily="@font/nunito_bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/current_score"
+        app:layout_constraintEnd_toEndOf="@id/current_score"
+        app:layout_constraintTop_toTopOf="@id/current_score"
+        app:layout_constraintBottom_toTopOf="@id/score"
+        />
+
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:elevation="2dp"
+        android:textSize="15sp"
+        android:fontFamily="@font/nunito_bold"
+        android:textColor="#E5C052"
+        app:layout_constraintStart_toStartOf="@id/cr_scrore"
+        app:layout_constraintEnd_toEndOf="@id/cr_scrore"
+        app:layout_constraintBottom_toBottomOf="@id/current_score"
+        app:layout_constraintTop_toBottomOf="@id/cr_scrore"
+        />
+
+    <TextView
+        android:id="@+id/best"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:elevation="2dp"
+        android:textSize="15sp"
+        android:fontFamily="@font/nunito_bold"
+        android:textColor="#E5C052"
+        app:layout_constraintStart_toStartOf="@id/cr_best"
+        app:layout_constraintEnd_toEndOf="@id/cr_best"
+        app:layout_constraintBottom_toBottomOf="@id/current_score"
+        app:layout_constraintTop_toBottomOf="@id/cr_best"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_extrabold"
+        android:text="2048"
+        android:textColor="@color/white"
+        android:textSize="38sp"
+        app:layout_constraintBottom_toBottomOf="@+id/current_score"
+        app:layout_constraintEnd_toStartOf="@id/current_score"
+
+        app:layout_constraintStart_toStartOf="@id/mainView"
+        app:layout_constraintTop_toTopOf="@+id/current_score" />
+
+    <TextView
+        android:id="@+id/cr_best"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Best Score"
+        android:layout_marginTop="4dp"
+        android:elevation="2dp"
+        android:textSize="15sp"
+        android:fontFamily="@font/nunito_extrabold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/high_score"
+        app:layout_constraintEnd_toEndOf="@id/high_score"
+        app:layout_constraintTop_toTopOf="@id/high_score"
+        app:layout_constraintBottom_toTopOf="@id/best"
+        />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/mainView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        app:layout_constraintVertical_bias="0.6"
+        android:padding="6dp"
+        android:background="@drawable/bg_container_buttons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="1:1">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/PlayButton"
+                tools:text="0" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

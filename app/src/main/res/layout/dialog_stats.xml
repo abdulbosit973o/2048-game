@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:layout_marginHorizontal="16dp"
+    android:background="@drawable/bg_dialog"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/cancel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Stats"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cancel" />
+
+   <TextView
+       android:id="@+id/first"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/textView"
+       android:layout_marginStart="16dp"
+       android:layout_marginTop="16dp"
+       android:textColor="@color/white"
+       android:fontFamily="@font/nunito_extrabold"
+       android:textSize="24sp"
+       android:text="1. "/>
+
+    <TextView
+        android:id="@+id/firstResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/first"
+        app:layout_constraintTop_toTopOf="@id/first"
+        app:layout_constraintBottom_toBottomOf="@id/first"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/nunito_extrabold"
+        android:textSize="24sp"
+        android:text="17778 score"/>
+
+    <TextView
+        android:id="@+id/secondResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/second"
+        app:layout_constraintTop_toTopOf="@id/second"
+        app:layout_constraintBottom_toBottomOf="@id/second"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/nunito_extrabold"
+        android:textSize="24sp"
+        android:text="15989 score"/>
+     <TextView
+        android:id="@+id/thirdResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/third"
+        app:layout_constraintTop_toTopOf="@id/third"
+        app:layout_constraintBottom_toBottomOf="@id/third"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/nunito_extrabold"
+        android:textSize="24sp"
+        android:text="15989 score"/>
+
+
+
+
+
+    <TextView
+        android:id="@+id/second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/first"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/nunito_extrabold"
+        android:textSize="24sp"
+        android:text="2. "/>
+
+    <TextView
+        android:id="@+id/third"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/second"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/nunito_extrabold"
+        android:textSize="24sp"
+        android:text="3. "/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
