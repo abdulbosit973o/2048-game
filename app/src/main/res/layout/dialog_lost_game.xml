@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:layout_marginHorizontal="16dp"
+    android:background="@drawable/bg_dialog"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/cancel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Game over"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cancel" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/restart"
+        android:layout_width="66dp"
+        android:layout_marginHorizontal="56dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.88"
+        app:cardBackgroundColor="#23adf3"
+        android:layout_height="66dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/share"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/share"
+        android:layout_width="66dp"
+        android:layout_marginHorizontal="56dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintVertical_bias="0.88"
+        app:cardBackgroundColor="#f8a656"
+        android:layout_height="66dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintStart_toEndOf="@id/restart"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home"
+        android:layout_width="66dp"
+        android:layout_marginHorizontal="56dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintVertical_bias="0.88"
+        app:cardBackgroundColor="#84c56a"
+        android:layout_height="66dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/share"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintStart_toEndOf="@id/restart"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/home"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/home"
+        app:layout_constraintEnd_toEndOf="@+id/home"
+        app:layout_constraintStart_toStartOf="@+id/home"
+        app:layout_constraintTop_toTopOf="@+id/home"
+        app:tint="@color/white" />
+
+
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:elevation="2dp"
+        android:src="@drawable/restart"
+        app:layout_constraintBottom_toBottomOf="@+id/restart"
+        app:layout_constraintEnd_toEndOf="@+id/restart"
+        app:layout_constraintStart_toStartOf="@+id/restart"
+        app:layout_constraintTop_toTopOf="@+id/restart"
+        app:tint="@color/white"/>
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:elevation="2dp"
+        android:src="@drawable/share"
+        app:layout_constraintBottom_toBottomOf="@+id/share"
+        app:layout_constraintEnd_toEndOf="@+id/share"
+        app:layout_constraintStart_toStartOf="@+id/share"
+        app:layout_constraintTop_toTopOf="@+id/share"
+        app:tint="@color/white"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

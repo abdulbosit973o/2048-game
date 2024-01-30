@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.a2048.R
 import com.example.a2048.data.local.MyShared
+import com.example.a2048.data.local.MySharedPreferences
 import com.example.a2048.databinding.ScreenHomeBinding
 import com.example.a2048.presentation.info.InfoScreen
 
@@ -27,7 +28,7 @@ import com.example.a2048.presentation.info.InfoScreen
 class HomeScreen : Fragment(R.layout.screen_home) {
     private val binding by viewBinding(ScreenHomeBinding::bind)
     private lateinit var dialog: Dialog
-    private val shared by lazy { MyShared.getInstance(requireContext()) }
+    private val shared = MySharedPreferences
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,13 +101,14 @@ class HomeScreen : Fragment(R.layout.screen_home) {
     private fun showStatsDialog() {
         dialog.setContentView(R.layout.dialog_stats)
 
-
         dialog.findViewById<ImageView>(R.id.cancel).setOnClickListener { dialog.dismiss() }
 
-        Log.d("TAG", "showStatsDialog: ${shared.getResults()}")
-        dialog.findViewById<TextView>(R.id.secondResult).text = shared.getResults()!![2] +" score"
-        dialog.findViewById<TextView>(R.id.firstResult).text = shared.getResults()!![0].toString() +" score"
-        dialog.findViewById<TextView>(R.id.thirdResult).text = shared.getResults()!![4].toString()+" score"
+        Log.d("TAG", "showStatsDialog: ${shared.getBestScores()}")
+
+
+//        dialog.findViewById<TextView>(R.id.secondResult).text = shared.getResults()!![2] +" score"
+//        dialog.findViewById<TextView>(R.id.firstResult).text = shared.getResults()!![0].toString() +" score"
+//        dialog.findViewById<TextView>(R.id.thirdResult).text = shared.getResults()!![4].toString()+" score"
 
 
         dialog.show()

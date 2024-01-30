@@ -11,5 +11,7 @@
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>
 
-    <style name="Theme._2048" parent="Base.Theme._2048" />
+    <style name="Theme._2048" parent="Base.Theme._2048" >
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

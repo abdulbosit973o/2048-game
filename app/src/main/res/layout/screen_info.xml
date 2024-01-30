@@ -11,6 +11,18 @@
         android:layout_height="?android:actionBarSize"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_extrabold"
+        android:text="Info"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="@+id/appBar"
+        app:layout_constraintEnd_toEndOf="@+id/appBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/ic_back"
         android:layout_width="24dp"
@@ -44,7 +56,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             >
 
             <ImageView
@@ -102,6 +114,18 @@
                 app:layout_constraintLeft_toLeftOf="@id/cardView"
                 app:layout_constraintRight_toRightOf="@id/cardView"
                 />
+
+            <TextView
+                android:justificationMode="inter_word"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/nunito_semi_bold"
+                app:layout_constraintTop_toBottomOf="@id/cardView"
+                android:text="2048 is a popular puzzle game where the goal is to combine numbered tiles to reach the elusive 2048 tile. The game is played on a 4x4 grid, and you can swipe tiles in four directions. When two tiles with the same number collide, they merge into one, doubling the value. With each swipe, a new tile appears on the board. Strategy is key in 2048 as the board fills up quickly, and a wrong move can lead to the game being over. Players must plan ahead, anticipate tile placements, and create larger numbers by careful merging. It's a challenging and addictive game that tests your logical thinking and decision-making skills.\n2048 is a highly addictive puzzle game that has captured the attention of millions of players worldwide. The objective of the game is to combine numbered tiles on a 4x4 grid until you reach the coveted 2048 tile. The game starts with two tiles, each displaying the number 2. By swiping the tiles in four directions - up, down, left, or right - you can merge matching numbers. For example, if you swipe two tiles with the number 2, they will combine to form a single tile with the number 4.\nAs you merge tiles, their values double, creating larger numbers. The challenge lies in managing the limited space on the grid and making strategic moves to prevent the board from filling up. The game ends when there are no more possible moves or when you successfully reach the 2048 tile.\nWhat makes 2048 captivating is its simplicity and the need for strategic thinking. Players must carefully plan their moves, considering the potential outcomes and maximizing the value of each merge. It requires a combination of logical thinking, spatial awareness, and quick decision-making."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
 
 

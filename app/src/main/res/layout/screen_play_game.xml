@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="@drawable/bg_appbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/_infotext"
@@ -75,7 +81,7 @@
         app:cardCornerRadius="8dp"
         android:layout_marginEnd="8dp"
         app:cardBackgroundColor="@color/container_color"
-        app:layout_constraintEnd_toStartOf="@id/restart_game"
+        app:layout_constraintEnd_toStartOf="@id/undo"
         app:layout_constraintBottom_toTopOf="@id/_infotext"
         android:layout_marginBottom="16dp"
         >
@@ -85,6 +91,26 @@
             android:layout_height="24dp"
             android:layout_gravity="center"
             android:src="@drawable/home"
+            app:tint="@color/white" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/undo"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/container_color"
+        app:layout_constraintEnd_toStartOf="@id/restart_game"
+        app:layout_constraintBottom_toTopOf="@id/_infotext"
+        android:layout_marginBottom="16dp"
+        >
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/jump"
             app:tint="@color/white" />
     </androidx.cardview.widget.CardView>
 

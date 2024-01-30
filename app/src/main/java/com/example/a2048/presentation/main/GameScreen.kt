@@ -6,14 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.cardview.widget.CardView
@@ -26,11 +25,12 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.a2048.R
 import com.example.a2048.data.local.MyShared
+import com.example.a2048.data.local.MySharedPreferences
 import com.example.a2048.data.model.SideEnum
 import com.example.a2048.databinding.ScreenPlayGameBinding
-import com.example.a2048.domain.AppRepositoryImpl
 import com.example.a2048.presentation.utils.MyBackgroundUtil
 import com.example.a2048.presentation.utils.MyTouchListener
+
 
 class GameScreen : Fragment(R.layout.screen_play_game) {
 
@@ -38,8 +38,11 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
     private val navController by lazy(LazyThreadSafetyMode.NONE) { findNavController() }
     private val views = ArrayList<AppCompatTextView>(16)
     private val viewModel: GameViewModel by viewModels()
-    private lateinit var dialog:Dialog
-    private val shared by lazy {MyShared.getInstance(requireContext())}
+    private lateinit var dialog: Dialog
+    private var isUsed = false
+    var score = 0
+    private  val pref = MySharedPreferences
+    private val shared by lazy { MyShared.getInstance(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         dialog = Dialog(requireContext())
@@ -47,21 +50,21 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
         setupTouchListener()
         setupObservers()
 
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // create a dialog to ask yes no questions whether or not the user wants to exit
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
+        binding.undo.setOnClickListener {
+            if (!isUsed) {
+                viewModel.getlastMatrix();
+                isUsed = true
+            }
+        }
 
-
-
-
-
-//        binding.menu.setOnClickListener {
-//            navController.popBackStack()
-//        }
-//
-//        binding.restart.setOnClickListener {
-//            viewModel.restartGame()
-//        }
-
-        binding.restartGame.setOnClickListener{
+        binding.restartGame.setOnClickListener {
             showPurchaseDialog()
         }
         binding.home.setOnClickListener {
@@ -70,13 +73,14 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
 
         viewModel.gameFinishLiveData.observe(viewLifecycleOwner) { isGameFinished ->
             if (isGameFinished) {
-
+                pref.saveBestScores(score)
+                showFinishGameDialog()
             }
         }
 
         viewModel.scoreLiveData.observe(viewLifecycleOwner) { score ->
             val prefs = requireContext().getSharedPreferences("2048Prefs", Context.MODE_PRIVATE)
-//            prefs.edit().clear().apply()
+            this.score =score
             val best = prefs.getString("Best", "0")
             if (best != null) {
                 if (score < best.toInt()) {
@@ -93,13 +97,45 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
 
     }
 
+    private fun showFinishGameDialog() {
+        dialog.setContentView(R.layout.dialog_lost_game)
+        dialog.findViewById<CardView>(R.id.home).setOnClickListener {
+            navController.navigateUp()
+            dialog.dismiss()
+        }
+        dialog.findViewById<CardView>(R.id.share).setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            val shareBody = "Tavsiya etaman: ${R.string.app_name}\n\nhttps://play.google.com/store/apps/details?id=org.telegram.messenger"
+            intent.setType("text/plain")
+            intent.putExtra(
+                Intent.EXTRA_SUBJECT,
+                getString(R.string.app_name)
+            )
+            intent.putExtra(Intent.EXTRA_TEXT, shareBody)
+            startActivity(Intent.createChooser(intent, getString(R.string.app_name)))
+        }
+
+        dialog.findViewById<CardView>(R.id.restart).setOnClickListener {
+            viewModel.restartGame()
+            dialog.dismiss()
+        }
+        dialog.show()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        //    dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.CENTER)
+    }
+
     private fun showQuestionHomeDialog() {
         dialog.setContentView(R.layout.dialog_restart)
         dialog.findViewById<TextView>(R.id.textView).text = "Return home?"
         dialog.findViewById<CardView>(R.id.no).setOnClickListener {
             shared.saveScore(binding.score.text.toString().toInt())
 
-            findNavController().navigateUp()
+            navController.navigateUp()
             dialog.dismiss()
         }
         dialog.findViewById<CardView>(R.id.yes).setOnClickListener {
@@ -111,7 +147,10 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
         }
         dialog.show()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         //    dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.CENTER)
     }
@@ -127,7 +166,7 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
             dialog.dismiss()
         }
         dialog.findViewById<CardView>(R.id.yes).setOnClickListener {
-           dialog.dismiss()
+            dialog.dismiss()
         }
         dialog.findViewById<ImageView>(R.id.cancel).setOnClickListener {
             dialog.dismiss()
@@ -136,14 +175,15 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
 
         dialog.show()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         //    dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.CENTER)
     }
 
     override fun onPause() {
-        val prefs = requireContext().getSharedPreferences("2048Prefs", Context.MODE_PRIVATE)
-        prefs.edit().putString("Best", binding.best.text.toString()).apply()
         super.onPause()
     }
 
@@ -165,10 +205,31 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
         val myTouchListener = MyTouchListener(requireContext())
         myTouchListener.setActionSideEnumListener {
             when (it) {
-                SideEnum.UP -> viewModel.moveUp()
-                SideEnum.RIGHT -> viewModel.moveRight()
-                SideEnum.DOWN -> viewModel.moveDown()
-                SideEnum.LEFT -> viewModel.moveLeft()
+                SideEnum.UP -> {
+                    viewModel.finish()
+                    viewModel.moveUp()
+                    isUsed = false
+                }
+
+                SideEnum.RIGHT -> {
+                    viewModel.finish()
+                    viewModel.moveRight()
+                    isUsed = false
+                }
+
+                SideEnum.DOWN -> {
+
+                    viewModel.finish()
+                    viewModel.moveDown()
+                    isUsed = false
+                }
+
+                SideEnum.LEFT -> {
+
+                    viewModel.finish()
+                    viewModel.moveLeft()
+                    isUsed = false
+                }
             }
         }
         binding.mainView.setOnTouchListener(myTouchListener)

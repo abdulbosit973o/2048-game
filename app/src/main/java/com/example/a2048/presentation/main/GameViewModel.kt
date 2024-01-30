@@ -13,6 +13,7 @@ class GameViewModel : ViewModel() {
     val matrixLiveData: LiveData<Array<Array<Int>>> get() = _matrixLiveData
 
     private val _gameFinishLiveData = MutableLiveData<Boolean>()
+    val _gameLastMatrixLiveData = MutableLiveData<Array<Array<Int>>>()
     val gameFinishLiveData: LiveData<Boolean> get() = _gameFinishLiveData
 
     private val _scoreLiveData = MutableLiveData<Int>()
@@ -45,14 +46,23 @@ class GameViewModel : ViewModel() {
 
     fun restartGame() {
         repository.resetGame()
+        repository.setLastMatrix()
         loadData()
     }
 
-    private fun finish() {
+    fun finish() {
         val isGameFinished = repository.finish()
         if (isGameFinished) {
             _gameFinishLiveData.value = true
         }
+    }
+
+    fun getlastMatrix() {
+        if (repository.getlastMatrix() != null) {
+            _matrixLiveData.value = repository.getlastMatrix()
+            _scoreLiveData.value = repository.getLowerScore()
+        }
+
     }
 
 }

@@ -9,6 +9,8 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
     private val shared by lazy { MyShared.getInstance(context) }
     private var isMove = false
     private var canAdd = 0
+    var moveNumber: Int = 0
+    var lastMatrix: Array<Array<Int>>? = null
 
     companion object {
         private const val PREFS_NAME = "2048Prefs"
@@ -46,6 +48,21 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
 
     override fun getMatrix(): Array<Array<Int>> = matrix
     override fun getScore(): Int = score
+    override fun getlastMatrix(): Array<Array<Int>>? {
+        if (lastMatrix != null) {
+            matrix = lastMatrix!!
+        }
+        return lastMatrix
+    }
+
+    override fun getLowerScore(): Int {
+        score -= moveNumber
+        return score
+    }
+
+    override fun setLastMatrix() {
+        lastMatrix = null
+    }
 
     private fun saveGameData() {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -60,6 +77,11 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
     private fun loadGameData() {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val matrixString = prefs.getString(MATRIX_KEY, null)
+        if (matrixString == null) {
+            addNewElement()
+            addNewElement()
+        }
+
         matrix = if (matrixString != null) {
             val values = matrixString.split(",").map { it.toInt() }
             Array(4) { i -> Array(4) { j -> values[i * 4 + j] } }
@@ -105,7 +127,8 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
         val newMatrix = createBasicMatrix()
         var index: Int
         var isAdded: Boolean
-        var moveNumber: Int = 0
+
+
 
 
         for (i in matrix.indices) {
@@ -119,7 +142,6 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
                 }
                 if (newMatrix[0][i] == 0) {
                     newMatrix[0][i] = matrix[j][i]
-
                     continue
                 }
 
@@ -137,8 +159,9 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
 
         }
 
+        lastMatrix = matrix
         matrix = newMatrix
-
+        if (isMovable()) addNewElement()
         isMove = false
 
         if (isScoreUpdated()) {
@@ -153,7 +176,6 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
         val newMatrix = createBasicMatrix()
         var index: Int
         var isAdded: Boolean
-        var moveNumber: Int = 0
 
 
         for (i in matrix.indices) {
@@ -183,8 +205,9 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
             }
         }
 
+        lastMatrix = matrix
         matrix = newMatrix
-        addNewElement()
+        if (isMovable()) addNewElement()
         isMove = false
 
         if (isScoreUpdated()) {
@@ -200,7 +223,6 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
         val newMatrix = createBasicMatrix()
         var index: Int
         var isAdded: Boolean
-        var moveNumber = 0
 
         for (i in matrix.indices) {
             index = 3
@@ -225,8 +247,9 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
             }
         }
 
+        lastMatrix = matrix
         matrix = newMatrix
-        addNewElement()
+        if (isMovable()) addNewElement()
 
         if (isScoreUpdated()) {
             score += moveNumber
@@ -241,7 +264,6 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
         val newMatrix = createBasicMatrix()
         var index: Int
         var isAdded: Boolean
-        var moveNumber: Int = 0
 
         for (i in matrix.indices) {
             index = 0
@@ -266,8 +288,9 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
             }
         }
 
+        lastMatrix = matrix
         matrix = newMatrix
-        addNewElement()
+        if (isMovable()) addNewElement()
         isMove = false
 
         if (isScoreUpdated()) {
@@ -316,6 +339,31 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
         matrix = createBasicMatrix()
         addNewElement()
         addNewElement()
+    }
+
+
+    private fun isMovable(): Boolean {
+        for (i in matrix.indices) {
+            for (j in matrix[i].indices) {
+                val current = matrix[i][j]
+                if (current == 0) {
+                    return true
+                }
+                if (i > 0 && (matrix[i - 1][j] == 0 || matrix[i - 1][j] == current)) {
+                    return true
+                }
+                if (i < matrix.size - 1 && (matrix[i + 1][j] == 0 || matrix[i + 1][j] == current)) {
+                    return true
+                }
+                if (j > 0 && (matrix[i][j - 1] == 0 || matrix[i][j - 1] == current)) {
+                    return true
+                }
+                if (j < matrix[i].size - 1 && (matrix[i][j + 1] == 0 || matrix[i][j + 1] == current)) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
 }
