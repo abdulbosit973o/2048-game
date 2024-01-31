@@ -2,6 +2,7 @@ package com.example.a2048.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
+import kotlin.random.Random
 
 class MySharedPreferences {
 
@@ -41,7 +42,25 @@ class MySharedPreferences {
                 val values = matrixString.split(",").map { it.toInt() }
                 matrix = Array(4) { i -> Array(4) { j -> values[i * 4 + j] } }
             }
+            else {
+                matrix[0][2] = 2
+                matrix = addNewElement(matrix)
+            }
+            return matrix
+        }
+        private fun addNewElement(matrix:Array<Array<Int>>) : Array<Array<Int>> {
+            val empty = ArrayList<Pair<Int, Int>>()
 
+            for (i in matrix.indices) {
+                for (j in matrix[i].indices) {
+                    if (matrix[i][j] == 0) empty.add(Pair(i, j))
+                }
+            }
+
+            val randomIndex = Random.nextInt(0, empty.size)
+            val findPairByRandomIndex = empty[randomIndex]
+
+            matrix[findPairByRandomIndex.first][findPairByRandomIndex.second] = 2
             return matrix
         }
 
@@ -51,6 +70,10 @@ class MySharedPreferences {
         }
 
         fun getScore(): Int = pref.getInt(SCORE_KEY, 0)
+        fun getBestScore(): Int = pref.getInt(BEST_SCORE_KEY, 0)
+        fun saveBestScore(int: Int){
+            pref.edit().putInt(BEST_SCORE_KEY,int).apply()
+        }
 
         fun clearScoreAndState() {
             pref.edit().remove(MATRIX_KEY).apply()

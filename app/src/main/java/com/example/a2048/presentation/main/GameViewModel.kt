@@ -58,11 +58,17 @@ class GameViewModel : ViewModel() {
     }
 
     fun getlastMatrix() {
-        if (repository.getlastMatrix() != null) {
-            _matrixLiveData.value = repository.getlastMatrix()
-            _scoreLiveData.value = repository.getLowerScore()
-        }
+       repository.getlastMatrix()
+        loadData()
+    }
 
+    fun saveGameData() {
+        repository.saveGameData()
+    }
+
+    fun loadGameData() {
+        repository.loadGameData()
+        loadData()
     }
 
 }

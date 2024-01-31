@@ -2,13 +2,12 @@ package com.example.a2048.domain
 
 import android.content.Context
 import androidx.appcompat.widget.AppCompatTextView
-import com.example.a2048.data.local.MyShared
+import com.example.a2048.data.local.MySharedPreferences
 import kotlin.random.Random
 
 class AppRepositoryImpl(private val context: Context) : AppRepository {
-    private val shared by lazy { MyShared.getInstance(context) }
+    private val pref = MySharedPreferences
     private var isMove = false
-    private var canAdd = 0
     var moveNumber: Int = 0
     var lastMatrix: Array<Array<Int>>? = null
 
@@ -23,7 +22,7 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
         fun getInstance(context: Context): AppRepository {
             if (!(Companion::instance.isInitialized)) {
                 instance = AppRepositoryImpl(context)
-                (instance as AppRepositoryImpl).loadGameData()  // Call loadGameData after initializing
+                (instance as AppRepositoryImpl) // Call loadGameData after initializing
             }
             return instance
         }
@@ -48,11 +47,11 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
 
     override fun getMatrix(): Array<Array<Int>> = matrix
     override fun getScore(): Int = score
-    override fun getlastMatrix(): Array<Array<Int>>? {
+    override fun getlastMatrix() {
         if (lastMatrix != null) {
             matrix = lastMatrix!!
+            score -= moveNumber
         }
-        return lastMatrix
     }
 
     override fun getLowerScore(): Int {
@@ -64,32 +63,15 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
         lastMatrix = null
     }
 
-    private fun saveGameData() {
-        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val editor = prefs.edit()
-
+    override fun saveGameData() {
         val matrixString = matrix.flatten().joinToString(",")
-        editor.putString(MATRIX_KEY, matrixString)
-        editor.putInt(SCORE_KEY, score)
-        editor.apply()
+        pref.saveGame(matrixString)
+        pref.saveScore(score)
     }
 
-    private fun loadGameData() {
-        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val matrixString = prefs.getString(MATRIX_KEY, null)
-        if (matrixString == null) {
-            addNewElement()
-            addNewElement()
-        }
-
-        matrix = if (matrixString != null) {
-            val values = matrixString.split(",").map { it.toInt() }
-            Array(4) { i -> Array(4) { j -> values[i * 4 + j] } }
-        } else {
-            createBasicMatrix()
-        }
-
-        score = prefs.getInt(SCORE_KEY, 0)
+    override fun loadGameData() {
+        matrix = pref.getState()
+        score = pref.getScore()
     }
 
     private fun addNewElement() {
@@ -105,7 +87,18 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
 
         val randomIndex = Random.nextInt(0, empty.size)
         val findPairByRandomIndex = empty[randomIndex]
-        matrix[findPairByRandomIndex.first][findPairByRandomIndex.second] = addElement
+
+        // Define a threshold probability (e.g., 0.8) to control the chance of adding a new element
+        val thresholdProbability = 0.8
+
+        // Generate a random double between 0 and 1
+        val randomValue = Random.nextDouble()
+
+        // Check if the random value is less than the threshold probability
+        if (randomValue < thresholdProbability) {
+            // Add the new element (e.g., 2)
+            matrix[findPairByRandomIndex.first][findPairByRandomIndex.second] = addElement
+        }
     }
 
     private fun createBasicMatrix() = arrayOf(
@@ -123,12 +116,9 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
     }
 
     override fun moveUp() {
-        canAdd = 0
         val newMatrix = createBasicMatrix()
         var index: Int
         var isAdded: Boolean
-
-
 
 
         for (i in matrix.indices) {
@@ -153,7 +143,6 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
                 } else {
                     newMatrix[++index][i] = matrix[j][i]
                     isAdded = false
-
                 }
             }
 
@@ -161,21 +150,25 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
 
         lastMatrix = matrix
         matrix = newMatrix
-        if (isMovable()) addNewElement()
+//        if (isCanAddNewElement && isMatrixChanged)
+            addNewElement()
+
         isMove = false
 
         if (isScoreUpdated()) {
-            score += moveNumber
             saveGameData()
         }
         finish()
     }
 
     override fun moveRight() {
-        canAdd = 1
         val newMatrix = createBasicMatrix()
         var index: Int
         var isAdded: Boolean
+        var isCanAddNewElement = false
+        var isMatrixChanged = false
+
+
 
 
         for (i in matrix.indices) {
@@ -184,12 +177,10 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
 
             for (j in matrix[i].size - 1 downTo 0) {
                 if (matrix[i][j] == 0) {
-
                     continue
                 }
                 if (newMatrix[i][3] == 0) {
                     newMatrix[i][3] = matrix[i][j]
-
                     continue
                 }
 
@@ -197,21 +188,25 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
                     newMatrix[i][index] *= 2
                     isAdded = true
                     isMove = true
+                    score += newMatrix[i][index]
                     moveNumber = newMatrix[i][index]
                 } else {
                     newMatrix[i][--index] = matrix[i][j]
                     isAdded = false
+                    if (index != j) {
+                        isMatrixChanged = true
+                    }
                 }
             }
         }
 
         lastMatrix = matrix
         matrix = newMatrix
-        if (isMovable()) addNewElement()
+//        if (isCanAddNewElement && isMatrixChanged)
+            addNewElement()
         isMove = false
 
         if (isScoreUpdated()) {
-            score += moveNumber
             saveGameData()
         }
 
@@ -219,10 +214,11 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
     }
 
     override fun moveDown() {
-        canAdd = 2
         val newMatrix = createBasicMatrix()
         var index: Int
         var isAdded: Boolean
+        var isCanAddNewElement = false
+        var isMatrixChanged = false
 
         for (i in matrix.indices) {
             index = 3
@@ -239,6 +235,9 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
                     newMatrix[index][i] *= 2
                     isAdded = true
                     isMove = true
+                    score += newMatrix[i][index]
+                    isMatrixChanged = true
+                    isCanAddNewElement = true
                     moveNumber = newMatrix[i][index]
                 } else {
                     newMatrix[--index][i] = matrix[j][i]
@@ -249,10 +248,10 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
 
         lastMatrix = matrix
         matrix = newMatrix
-        if (isMovable()) addNewElement()
+//        if (isCanAddNewElement && isMatrixChanged)
+            addNewElement()
 
         if (isScoreUpdated()) {
-            score += moveNumber
             saveGameData()
         }
 
@@ -260,7 +259,6 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
     }
 
     override fun moveLeft() {
-        canAdd = 3
         val newMatrix = createBasicMatrix()
         var index: Int
         var isAdded: Boolean
@@ -280,6 +278,7 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
                     newMatrix[i][index] *= 2
                     isAdded = true
                     isMove = true
+                    score += newMatrix[i][index]
                     moveNumber = newMatrix[i][index]
                 } else {
                     newMatrix[i][++index] = matrix[i][j]
@@ -290,11 +289,12 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
 
         lastMatrix = matrix
         matrix = newMatrix
-        if (isMovable()) addNewElement()
+
+         addNewElement()
         isMove = false
 
         if (isScoreUpdated()) {
-            score += moveNumber
+
             saveGameData()
         }
 
@@ -316,7 +316,6 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
     }
 
     override fun finish(): Boolean {
-        shared.saveScore(score)
         for (i in matrix.indices) {
             for (j in matrix[i].indices) {
                 if (matrix[i][j] == 0) return false
@@ -334,7 +333,6 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
     }
 
     override fun resetGame() {
-        shared.saveScore(score)
         score = 0
         matrix = createBasicMatrix()
         addNewElement()

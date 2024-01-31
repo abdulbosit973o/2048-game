@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -42,13 +43,13 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
     private var isUsed = false
     var score = 0
     private  val pref = MySharedPreferences
-    private val shared by lazy { MyShared.getInstance(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         dialog = Dialog(requireContext())
         setupViews()
         setupTouchListener()
         setupObservers()
+        viewModel.loadGameData()
 
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -61,6 +62,7 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
             if (!isUsed) {
                 viewModel.getlastMatrix();
                 isUsed = true
+                binding.undoimg.setColorFilter(Color.argb(200, 200, 200, 200))
             }
         }
 
@@ -79,18 +81,11 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
         }
 
         viewModel.scoreLiveData.observe(viewLifecycleOwner) { score ->
-            val prefs = requireContext().getSharedPreferences("2048Prefs", Context.MODE_PRIVATE)
-            this.score =score
-            val best = prefs.getString("Best", "0")
-            if (best != null) {
-                if (score < best.toInt()) {
-                    binding.best.text = best
-                }
-            }
+           if (pref.getBestScore() <= score) {
+               pref.saveBestScore(score)
+               binding.best.text = score.toString()
+           }
             updateScore(score)
-            if (binding.best.text.toString().toInt() < score) {
-                binding.best.text = score.toString()
-            }
         }
 
         viewModel.loadData()
@@ -133,7 +128,8 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
         dialog.setContentView(R.layout.dialog_restart)
         dialog.findViewById<TextView>(R.id.textView).text = "Return home?"
         dialog.findViewById<CardView>(R.id.no).setOnClickListener {
-            shared.saveScore(binding.score.text.toString().toInt())
+            Log.d("TAG", "showQuestionHomeDialog: ${binding.score.text.toString()}")
+            pref.saveBestScores(binding.score.text.toString().toInt())
 
             navController.navigateUp()
             dialog.dismiss()
@@ -161,7 +157,8 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
         dialog.findViewById<TextView>(R.id.textView).text = "Restart game"
 
         dialog.findViewById<CardView>(R.id.no).setOnClickListener {
-            shared.saveScore(binding.score.text.toString().toInt())
+            pref.saveBestScores(binding.score.text.toString().toInt())
+            Log.d("TAG", "showPurchaseDialog:${binding.score.text}")
             viewModel.restartGame()
             dialog.dismiss()
         }
@@ -184,6 +181,7 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
     }
 
     override fun onPause() {
+        viewModel.saveGameData()
         super.onPause()
     }
 
@@ -209,12 +207,14 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
                     viewModel.finish()
                     viewModel.moveUp()
                     isUsed = false
+                    binding.undoimg.setColorFilter(Color.argb(255, 255, 255, 255))
                 }
 
                 SideEnum.RIGHT -> {
                     viewModel.finish()
                     viewModel.moveRight()
                     isUsed = false
+                    binding.undoimg.setColorFilter(Color.argb(255, 255, 255, 255))
                 }
 
                 SideEnum.DOWN -> {
@@ -222,6 +222,7 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
                     viewModel.finish()
                     viewModel.moveDown()
                     isUsed = false
+                    binding.undoimg.setColorFilter(Color.argb(255, 255, 255, 255))
                 }
 
                 SideEnum.LEFT -> {
@@ -229,6 +230,7 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
                     viewModel.finish()
                     viewModel.moveLeft()
                     isUsed = false
+                    binding.undoimg.setColorFilter(Color.argb(255, 255, 255, 255))
                 }
             }
         }
@@ -239,6 +241,7 @@ class GameScreen : Fragment(R.layout.screen_play_game) {
     private fun setupObservers() {
         viewModel.matrixLiveData.observe(viewLifecycleOwner) { matrix ->
             updateUI(matrix)
+            binding.best.text = pref.getBestScore().toString()
         }
     }
 

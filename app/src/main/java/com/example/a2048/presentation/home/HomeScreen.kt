@@ -46,7 +46,6 @@ class HomeScreen : Fragment(R.layout.screen_home) {
             }
 
             purchase.setOnClickListener {
-                Toast.makeText(requireContext(), "Purchase", Toast.LENGTH_SHORT).show()
                 showPurchaseDialog()
             }
             stats.setOnClickListener {
@@ -57,7 +56,6 @@ class HomeScreen : Fragment(R.layout.screen_home) {
 
             }
             settings.setOnClickListener {
-                Toast.makeText(requireContext(), "Settings", Toast.LENGTH_SHORT).show()
                 showSettingsDialog()
             }
 
@@ -103,12 +101,10 @@ class HomeScreen : Fragment(R.layout.screen_home) {
 
         dialog.findViewById<ImageView>(R.id.cancel).setOnClickListener { dialog.dismiss() }
 
-        Log.d("TAG", "showStatsDialog: ${shared.getBestScores()}")
 
-
-//        dialog.findViewById<TextView>(R.id.secondResult).text = shared.getResults()!![2] +" score"
-//        dialog.findViewById<TextView>(R.id.firstResult).text = shared.getResults()!![0].toString() +" score"
-//        dialog.findViewById<TextView>(R.id.thirdResult).text = shared.getResults()!![4].toString()+" score"
+        dialog.findViewById<TextView>(R.id.secondResult).text = "${shared.getBestScores()[1]} score"
+        dialog.findViewById<TextView>(R.id.firstResult).text =  "${shared.getBestScores()[0]} score"
+        dialog.findViewById<TextView>(R.id.thirdResult).text =  "${shared.getBestScores()[2]} score"
 
 
         dialog.show()
