@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_homeScreen_to_appInfoScreen"
             app:destination="@id/appInfoScreen" />
+        <action
+            android:id="@+id/action_homeScreen_to_gameSecondScreen"
+            app:destination="@id/gameSecondScreen" />
     </fragment>
     <fragment
         android:id="@+id/gameScreen"
@@ -48,4 +51,8 @@
         android:id="@+id/appInfoScreen"
         android:name="com.example.a2048.presentation.info_screen.AppInfoScreen"
         android:label="AppInfoScreen" />
+    <fragment
+        android:id="@+id/gameSecondScreen"
+        android:name="com.example.a2048.presentation.main.GameSecondScreen"
+        android:label="GameSecondScreen" />
 </navigation>

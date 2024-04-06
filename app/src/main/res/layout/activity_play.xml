@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/app_main_background"
+    android:layout_height="match_parent"
+    tools:context=".PlayActivity">
+
+    <!--<com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:backgroundTint="#EFBA4F"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:padding="8dp"
+                android:src="@drawable/ic_back" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/button_restart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:src="@drawable/ic_reload"
+                app:tint="@color/white" />
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>-->
+
+    <!--<Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="108dp"
+        android:text="BACK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/bg_item_score"
+        android:padding="4dp"
+        android:src="@drawable/back_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_home"
+        app:layout_constraintStart_toEndOf="@+id/btn_home"
+        app:layout_constraintTop_toTopOf="@+id/btn_home" />
+
+    <ImageView
+        android:id="@+id/btn_refresh"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/bg_item_score"
+        android:padding="4dp"
+        android:src="@drawable/ic_refresh_24"
+        app:layout_constraintBottom_toBottomOf="@+id/back"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintTop_toTopOf="@+id/back" />
+
+    <ImageView
+        android:id="@+id/btn_home"
+        android:padding="4dp"
+        android:background="@drawable/bg_item_score"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_home_24"
+        app:layout_constraintBottom_toTopOf="@+id/mainView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/nunito_extrabold"
+        android:text="@string/_2048"
+        android:textColor="#95897E"
+        android:textSize="36sp"
+        app:layout_constraintStart_toStartOf="@+id/mainView"
+
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/record_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_item_score"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintRight_toRightOf="@id/mainView"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:text="High Score"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:text="276"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+
+    </LinearLayout>
+
+    <!--<ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_item_score"
+        android:padding="10dp"
+        android:src="@drawable/ic_home_24"
+
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="28dp" />-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_item_score"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/record_bg"
+        app:layout_constraintRight_toLeftOf="@id/record_bg"
+        app:layout_constraintTop_toTopOf="@+id/textView">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:text="Score"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:text="276"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/bg_item_score"
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/mainView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunito_extrabold">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunito_extrabold">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunito_extrabold">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_extrabold"
+                android:background="@drawable/bg_item_0"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                tools:text="0" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

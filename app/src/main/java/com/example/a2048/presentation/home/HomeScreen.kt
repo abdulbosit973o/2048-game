@@ -39,7 +39,7 @@ class HomeScreen : Fragment(R.layout.screen_home) {
         }
         binding.apply {
             play.setOnClickListener {
-                findNavController().navigate(R.id.gameScreen)
+                findNavController().navigate(R.id.action_homeScreen_to_gameSecondScreen)
             }
             info.setOnClickListener {
                 findNavController().navigate(HomeScreenDirections.actionHomeScreenToAppInfoScreen())
