@@ -23,12 +23,15 @@ import com.example.a2048.data.local.MyShared
 import com.example.a2048.data.local.MySharedPreferences
 import com.example.a2048.databinding.ScreenHomeBinding
 import com.example.a2048.presentation.info.InfoScreen
+import com.example.a2048.settings.Settings
+import com.example.a2048.utils.myLog
 
 
 class HomeScreen : Fragment(R.layout.screen_home) {
     private val binding by viewBinding(ScreenHomeBinding::bind)
     private lateinit var dialog: Dialog
-    private val shared = MySharedPreferences
+    private val shared = Settings.getInstance()
+    private val sharedPreferences = MySharedPreferences
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,19 +70,20 @@ class HomeScreen : Fragment(R.layout.screen_home) {
         dialog.setContentView(R.layout.dialog_settings)
 
 
+
         dialog.findViewById<ImageView>(R.id.cancel).setOnClickListener { dialog.dismiss() }
         dialog.findViewById<CardView>(R.id.rate).setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=game.original2048.game2048.classic2048")))
         }
 
         dialog.findViewById<CardView>(R.id.privacy_policy).setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://policies.google.com/privacy?hl=en-US")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.freeprivacypolicy.com/live/1f7be489-2c41-46fd-93d0-a1ddf368dff2")))
         }
         dialog.findViewById<CardView>(R.id.more_games).setOnClickListener {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/account")
+                    Uri.parse("https://play.google.com/store/apps/developer?id=Activemedia+Solutions&hl=en&gl=US")
                 )
             )
             //startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=pub:Activemedia Solutions")))
@@ -102,9 +106,9 @@ class HomeScreen : Fragment(R.layout.screen_home) {
         dialog.findViewById<ImageView>(R.id.cancel).setOnClickListener { dialog.dismiss() }
 
 
-        dialog.findViewById<TextView>(R.id.secondResult).text = "${shared.getBestScores()[1]} score"
-        dialog.findViewById<TextView>(R.id.firstResult).text =  "${shared.getBestScores()[0]} score"
-        dialog.findViewById<TextView>(R.id.thirdResult).text =  "${shared.getBestScores()[2]} score"
+        dialog.findViewById<TextView>(R.id.secondResult).text = "${shared.getRecord2()} score"
+        dialog.findViewById<TextView>(R.id.firstResult).text =  "${shared.getRecord()} score"
+        dialog.findViewById<TextView>(R.id.thirdResult).text =  "${shared.getRecord3()} score"
 
 
         dialog.show()
@@ -125,9 +129,12 @@ class HomeScreen : Fragment(R.layout.screen_home) {
 
         dialog.findViewById<ImageView>(R.id.cancel).setOnClickListener { dialog.dismiss() }
         dialog.findViewById<CardView>(R.id.disable_ads).setOnClickListener {
-            val intent =
-                Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=game.original2048.game2048.classic2048"))
-            startActivity(intent)
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/account")
+                )
+            )
         }
         dialog.show()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
